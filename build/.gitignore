@@ -1,0 +1,9 @@
+/dist
+/img
+
+/bin
+/obj
+/_ReSharper.Caches
+/.vs
+
+/locked

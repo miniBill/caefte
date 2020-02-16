@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caefte", "Caefte.csproj", "{B80224EE-A214-4680-8852-EA0BE5EA8EE9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AnyCPU = Debug|AnyCPU
+		API|AnyCPU = API|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B80224EE-A214-4680-8852-EA0BE5EA8EE9}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
+		{B80224EE-A214-4680-8852-EA0BE5EA8EE9}.Debug|AnyCPU.Build.0 = Debug|Any CPU
+		{B80224EE-A214-4680-8852-EA0BE5EA8EE9}.Release|AnyCPU.ActiveCfg = Release|Any CPU
+		{B80224EE-A214-4680-8852-EA0BE5EA8EE9}.Release|AnyCPU.Build.0 = Release|Any CPU
+		{B80224EE-A214-4680-8852-EA0BE5EA8EE9}.API|AnyCPU.ActiveCfg = API|Any CPU
+		{B80224EE-A214-4680-8852-EA0BE5EA8EE9}.API|AnyCPU.Build.0 = API|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2A02D1D-DF4D-42AA-9F58-4E139DF05346}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" 
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B80224EE-A214-4680-8852-EA0BE5EA8EE9}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Caefte</RootNamespace>
+    <AssemblyName>Caefte</AssemblyName>
+    <ApplicationIcon>..\build\img\logo.ico</ApplicationIcon>
+    <WarningLevel>4</WarningLevel>
+    <ErrorReport>prompt</ErrorReport>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'API|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\API</OutputPath>
+    <DefineConstants>API;</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\backend\**\*.cs" />
+    <EmbeddedResource Include="img\logo.ico.gz">
+      <LogicalName>favicon.ico.gz</LogicalName>
+    </EmbeddedResource>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Compile Include="api\result\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Compile Include="api\result\**\*.cs" />
+    <EmbeddedResource Include="dist\index.html.gz">
+      <LogicalName>index.html.gz</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dist\frontend.e31bb0bc.js.gz">
+      <LogicalName>frontend.e31bb0bc.js.gz</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
