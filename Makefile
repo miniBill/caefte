@@ -86,3 +86,20 @@ run: build/bin/Debug/Caefte.exe
 .PHONY: clean
 clean:
 	rm -rf build/img build/elm-stuff build/bin build/obj build/dist out/source.zip out/Caefte.zip frontend/node_modules frontend/.cache frontend/elm-stuff
+
+
+##########
+# Native #
+##########
+
+.PHONY: native
+native: out/native.gz
+
+build/bin/Release/linked/Caefte.exe: build/bin/Release/Caefte.exe
+	cd $(shell dirname $@)/.. ; monolinker -l west -a $(shell basename $@) -c link -o $(shell basename $(shell dirname $@))
+
+build/bin/Release/linked/native: build/bin/Release/linked/Caefte.exe
+	cd $(shell dirname $^); mkbundle -o $(shell basename $@) --simple $(shell basename $^) --machine-config /etc/mono/4.5/machine.config --config /etc/mono/config
+
+out/native.gz: build/bin/Release/linked/native
+	pigz -9 <$^ > $@
