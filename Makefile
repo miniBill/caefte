@@ -92,7 +92,7 @@ out/source.zip: $(shell git ls-files)
 	pigz -9 <$^ > $@ || gzip -9 <$^ > $@
 
 .PHONY: run
-run: build/bin/Debug/Caefte.exe ${ELM_API}
+run: build/bin/Debug/Caefte.exe ${ELM_API} build/locked
 	tmux new-session "mono $^; read trash" \; split-window -h "cd frontend && parcel watch -d ../build/dist index.html; read trash" \; attach
 
 .PHONY: clean
