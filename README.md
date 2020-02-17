@@ -47,4 +47,10 @@ This will start a live-reloading server (for the Elm part, the C# part still req
 **Neutralinojs**: https://neutralino.js.org/ - C++ alternative
 
 ## TODO ##
-Integrate something like [this](https://github.com/dlech/Keebuntu) to fix the notification icon under mono/Linux.
+* Integrate something like [this](https://github.com/dlech/Keebuntu) to fix the notification icon under mono/Linux.
+* Investigate whether to use a tray icon vs a notification icon.
+* Investigate whether to use a WebView to be more like Electron.
+* Investigate detecting being run from the CLI and not popping an incon.
+* Implement APIs exposing user types (expose as Elm's records).
+
+PRs encouraged!
