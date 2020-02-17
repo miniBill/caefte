@@ -26,7 +26,7 @@ build/img/logo.ico: build/img/logo.png
 	${CONVERT} $< -resize 256x256 -define icon:auto-resize="256,128,64,32,16" $@
 
 build/dist/favicon.ico: build/img/logo.ico
-	mkdir -p $(shell basename $@)
+	mkdir -p $(shell dirname $@)
 	cp $< $@
 
 
