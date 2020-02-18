@@ -52,5 +52,7 @@ This will start a live-reloading server (for the Elm part, the C# part still req
 * Investigate whether to use a WebView to be more like Electron.
 * Investigate detecting being run from the CLI and not popping an incon.
 * Implement APIs exposing user types (expose as Elm's records).
+* Implement APIs exposing progress [choose between (int, IEnumerable) f() or IEnumerable f(out int)]
+* Implement APIs for reading data from body/url
 
 PRs encouraged!
