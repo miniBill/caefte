@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Caefte
@@ -22,13 +24,24 @@ namespace Caefte
         }
 
         [Get("/api/files")]
-        public string[] GetFiles() => Directory.GetFiles("/tmp");
+        public Tree GetFilesRecursive() => ToTree(new DirectoryInfo(Path.GetTempPath()));
 
-        [Get("/api/files3")]
-        public string[][][] GetFiles3() => new[] {
-            new [] {
-                Directory.GetFiles("/tmp")
+        private Tree ToTree(DirectoryInfo di) =>
+            new Tree(
+                di.GetDirectories().Select(ToTree),
+                di.GetFiles().Select(f => f.Name)
+            );
+
+        public class Tree
+        {
+            public Tree(IEnumerable<Tree> directories, IEnumerable<string> files)
+            {
+                Directories = directories.ToArray();
+                Files = files.ToArray();
             }
-        };
+
+            public Tree[] Directories { get; }
+            public string[] Files { get; }
+        }
     }
 }
