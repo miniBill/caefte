@@ -93,7 +93,7 @@ out/source.zip: $(shell git ls-files)
 
 .PHONY: run
 run: build/bin/Debug/Caefte.exe ${ELM_API} build/locked
-	tmux new-session "mono $^; read trash" \; split-window -h "cd frontend && parcel watch -d ../build/dist index.html; read trash" \; attach
+	tmux new-session "mono $^ || read trash" \; split-window -h "cd frontend && parcel watch -d ../build/dist index.html || read trash" \; attach
 
 .PHONY: clean
 clean:
