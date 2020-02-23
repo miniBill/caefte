@@ -235,99 +235,71 @@ namespace API
                 first = false;
                 writer.WriteLine();
 
+                void WriteDecoder(string name, string elmType, string implementation)
+                {
+                    writer.WriteLine($"{name}Decoder : Decoder {elmType}");
+                    writer.WriteLine($"{name}Decoder =");
+                    writer.WriteIndented(implementation);
+                }
+
                 switch (type)
                 {
                     case "string":
-                        writer.WriteLine("stringDecoder : Decoder String");
-                        writer.WriteLine("stringDecoder =");
-                        writer.WriteIndented(
-                            "Bytes.signedInt32 Bytes.LE |> Bytes.andThen Bytes.string");
+                        WriteDecoder("string", "String", "Bytes.signedInt32 Bytes.LE |> Bytes.andThen Bytes.string");
+                        break;
+                    case "bool":
+                        WriteDecoder("bool", "Bool", "Bytes.unsignedInt8 |> Bytes.map ((/=) 0)");
+                        break;
+                    case "byte":
+                        WriteDecoder("byte", "Int", "Bytes.unsignedInt8");
+                        break;
+                    case "sbyte":
+                        WriteDecoder("sbyte", "Int", "Bytes.signedInt8");
+                        break;
+                    case "short":
+                        WriteDecoder("ushort", "Int", "Bytes.signedInt16 Bytes.LE");
+                        break;
+                    case "ushort":
+                        WriteDecoder("short", "Int", "Bytes.unsignedInt16 Bytes.LE");
+                        break;
+                    case "int":
+                        WriteDecoder("int", "Int", "Bytes.signedInt32 Bytes.LE");
+                        break;
+                    case "uint":
+                        WriteDecoder("uint", "Int", "Bytes.unsignedInt32 Bytes.LE");
+                        break;
+                    case "char":
+                        WriteDecoder("char", "Char", "Bytes.unsignedInt16 |> Bytes.map Char.fromCode");
+                        break;
+                    case "float":
+                        WriteDecoder("float", "Float", "Bytes.float");
+                        break;
+                    case "double":
+                        WriteDecoder("double", "Double", "Bytes.double");
                         break;
                     case "list":
                         writer.WriteLine("listDecoder : Decoder a -> Decoder (List a)");
                         writer.WriteLine("listDecoder decoder =");
                         writer.WriteIndented(() =>
                         {
-                            writer.WriteLine("let");
-                            writer.WriteIndented(() =>
-                            {
-                                writer.WriteLine("listStep ( n, xs ) =");
-                                writer.WriteIndented(() =>
-                                {
-                                    writer.WriteLine("if n <= 0 then");
-                                    writer.WriteIndented(
-                                        "Bytes.succeed <| Bytes.Done xs");
-                                    writer.WriteEmptyLine();
-                                    writer.WriteLine("else");
-                                    writer.WriteIndented(
-                                        @"Bytes.map (\x -> Bytes.Loop ( n - 1, x :: xs )) decoder");
-                                });
-                            });
-                            writer.WriteLine("in");
                             writer.WriteLine("Bytes.signedInt32 Bytes.LE");
                             writer.WriteIndented(
-                                @"|> Bytes.andThen (\length -> Bytes.loop ( length, [] ) listStep)");
+                                @"|> Bytes.andThen (\length -> Bytes.loop ( length, [] ) (listDecoderHelper decoder))");
                         });
-                        break;
-                    case "bool":
-                        writer.WriteLine("boolDecoder : Decoder Bool");
-                        writer.WriteLine("boolDecoder =");
-                        writer.WriteIndented(
-                            "Bytes.unsignedInt8 |> Bytes.map ((/=) 0)");
-                        break;
-                    case "byte":
-                        writer.WriteLine("byteDecoder : Decoder Int");
-                        writer.WriteLine("byteDecoder =");
-                        writer.WriteIndented(
-                            "Bytes.unsignedInt8");
-                        break;
-                    case "sbyte":
-                        writer.WriteLine("sbyteDecoder : Decoder Int");
-                        writer.WriteLine("sbyteDecoder =");
-                        writer.WriteIndented(
-                            "Bytes.signedInt8");
-                        break;
-                    case "short":
-                        writer.WriteLine("ushortDecoder : Decoder Int");
-                        writer.WriteLine("ushortDecoder =");
-                        writer.WriteIndented(
-                            "Bytes.signedInt16 Bytes.LE");
-                        break;
-                    case "ushort":
-                        writer.WriteLine("shortDecoder : Decoder Int");
-                        writer.WriteLine("shortDecoder =");
-                        writer.WriteIndented(
-                            "Bytes.unsignedInt16 Bytes.LE");
-                        break;
-                    case "int":
-                        writer.WriteLine("intDecoder : Decoder Int");
-                        writer.WriteLine("intDecoder =");
-                        writer.WriteIndented(
-                            "Bytes.signedInt32 Bytes.LE");
-                        break;
-                    case "uint":
-                        writer.WriteLine("uintDecoder : Decoder Int");
-                        writer.WriteLine("uintDecoder =");
-                        writer.WriteIndented(
-                            "Bytes.unsignedInt32 Bytes.LE");
-                        break;
-                    case "char":
-                        writer.WriteLine("charDecoder : Decoder Char");
-                        writer.WriteLine("charDecoder =");
-                        writer.WriteIndented(
-                            "Bytes.unsignedInt16 |> Bytes.map Char.fromCode");
-                        break;
-                    case "float":
-                        writer.WriteLine("floatDecoder : Decoder Float");
-                        writer.WriteLine("floatDecoder =");
-                        writer.WriteIndented(
-                            "Bytes.float");
-                        break;
-                    case "double":
-                        writer.WriteLine("doubleDecoder : Decoder Double");
-                        writer.WriteLine("doubleDecoder =");
-                        writer.WriteIndented(
-                            "Bytes.double");
+                        writer.WriteLine();
+                        writer.WriteLine();
+                        writer.WriteLine("listDecoderHelper : Decoder a -> ( Int, List a ) -> Decoder (Bytes.Step ( Int, List a ) (List a))");
+                        writer.WriteLine("listDecoderHelper decoder ( n, xs ) =");
+                        writer.WriteIndented(() =>
+                        {
+                            writer.WriteLine("if n <= 0 then");
+                            writer.WriteIndented(
+                                "Bytes.succeed <| Bytes.Done xs");
+                            writer.WriteEmptyLine();
+                            writer.WriteLine("else");
+                            writer.WriteIndented(
+                                @"Bytes.map (\x -> Bytes.Loop ( n - 1, x :: xs )) decoder");
+                        });
                         break;
                     default:
                         throw new NotImplementedException($"Elm decoder for {type}");
